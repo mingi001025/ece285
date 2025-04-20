@@ -25,10 +25,14 @@ class Softmax(BaseLayer):
 
         # Calculate softmax outputs e_i/sum(e_j)
         # softmax_matrix =
-
+        exp_scores = np.exp(scores)
+        softmax_matrix = exp_scores / np.sum(exp_scores, axis=1, keepdims=True)
+        assert softmax_matrix.shape == input_x.shape, "Softmax output must be NxC"
+        
         assert scores.shape == input_x.shape, "Scores must be NxC"
 
         return softmax_matrix
+        #return input_x
 
     def backward(self, dout):
         # Nothing to do here, pass. The gradient are calculated in the cross entropy loss backward function itself
